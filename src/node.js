@@ -164,10 +164,10 @@
 
   startup.globalHandlers = function() {
     var events = NativeModule.require('events');
-    global.setEventHandler   = global.pushEventHandler = events.pushEventHandler;
-    global.clearEventHandler = global.popEventHandler  = events.clearEventHandler;
-    global.clearAllEventHandlers = events.clearAllEventHandlers;
+    global.setEventHandler = events.setEventHandler;
     global.getEventHandler = events.getEventHandler;
+    global.clearEventHandler = events.clearEventHandler;
+    global.clearAllEventHandlers = events.clearAllEventHandlers;
   };
 
   startup.globalTimeouts = function() {
