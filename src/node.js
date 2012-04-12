@@ -33,6 +33,7 @@
     process.EventEmitter = EventEmitter; // process.EventEmitter is deprecated
 
     startup.globalVariables();
+    startup.globalHandlers();
     startup.globalTimeouts();
     startup.globalConsole();
 
@@ -159,6 +160,13 @@
     global.GLOBAL = global;
     global.root = global;
     global.Buffer = NativeModule.require('buffer').Buffer;
+  };
+
+  startup.globalHandlers = function() {
+    var events = NativeModule.require('events');
+    global.setEventHandler = events.setEventHandler;
+    global.getEventHandler = events.getEventHandler;
+    global.clearEventHandler = events.clearEventHandler;
   };
 
   startup.globalTimeouts = function() {
