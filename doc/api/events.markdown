@@ -93,3 +93,40 @@ Execute each of the listeners in order with the supplied arguments.
 * `listener` {Function} The event handler function
 
 This event is emitted any time someone adds a new listener.
+
+## Event Handlers
+
+### setEventHandler(callback)
+
+Pushes onto the event handler stack. When an EventEmitter is
+constructed, it there is a handler on the top of the stack, it will pass
+any uncaught exceptions to that handler.
+
+It will also push that handler onto the stack any time it emits. This
+causes and EventEmitters that are constructed in the emit stack, to
+inherit the same handler.
+
+    function myHandler(err) {
+      console.log('oh noes');
+    }
+
+    setEventHandler(myHandler);
+
+    setTimeout(function() {
+      require('fs').readFile('non-existant-file', function(err, data) {
+        if (err) throw err; // will be sent to myHandler
+        console.log(data);
+      });
+    }, 100);
+
+    clearEventHandler();
+
+    require('fs').readFile('non-existant-file', function(err, data) {
+      if (err) throw err; // will be an uncaught exception and end the process
+      console.log(data);
+    });
+
+### clearEventHandler(callback)
+
+Pops the event handler stack.
+
